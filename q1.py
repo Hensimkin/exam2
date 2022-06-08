@@ -133,7 +133,7 @@ def numofparts(func,originalfunc,points):
     for i in range(len(arr)):
         if originalfunc(points[i])>max:
             max=originalfunc(points[i])
-    print(max)
+    print("the max point is:", max)
     return max
 
 
@@ -150,22 +150,23 @@ def findanswer(f):
     z=solve(f)
     return z
 
-def calculateder4(func,a,b):
-    z=func
-    z=derive(z)#1
-    arr=solve(z)
+def calculateder4(func4,a,b,pit):
+    #solve(func4)
+    z=func4
+    #z=derive(z)#1
+    #ar=solve(z)
     for i in range(3):
         z=derive(z)#4
-    max=numofparts(func, z, arr)
+    max=numofparts(func4, z, pit)
     x = sp.symbols('x')
-    func = lambdify(x, func)
+    func = lambdify(x, func4)
     return func(max)
 
 
 def calcall(h,n,a,b,max):
     #total=((h**5)/90)*((b-a)/h)*(max/2)
     total=((1/180)*(h**4))*(b-a)*max
-    print(total)
+    print("total area is: ", total)
 
 def func(x):
     return (sp.cos(2*(math.e**(-2*x))))/(2*x**3+5*x**2-6)
@@ -183,8 +184,9 @@ def main2():
     h = (table[len(table) - 1][0] - table[0][0]) / n
     print(simpson(table, n))
     x = sp.symbols('x')
-    func = (sp.cos(2*(math.e**(-2*x))))/(2*x**3+5*x**2-6)
-    max = calculateder4(func, table[0][0], table[len(table) - 1][1])
+    func2 = ((sp.cos(2*(math.e**(-2*x))))/(2*x**3+5*x**2-6))
+    a=solve(func2)
+    max = calculateder4(func2, table[0][0], table[len(table) - 1][1],a)
     calcall(h, n, table[0][0], table[len(table) - 1][0], max)
 
 
@@ -361,7 +363,9 @@ Newton_Raphson(func,-1.1,2,0.0001)
 print("\n")
 print("Simpson method")
 print("\n")
-#main2()
+x=sp.symbols('x')
+a=solve(((sp.cos(2*(math.e**(-2*x))))/(2*x**3+5*x**2-6)))
+main2()
 print("Part II")
 print("\n")
 print("\n")
